@@ -4,7 +4,7 @@
       <p class="search">{{ link }}</p>
       <p class="result">{{ shortLink }}</p>
     </div>
-    <button @click="changeText" :class="cssClass" type="text">Copy</button>
+    <button @click="changeText"  type="text">Copy</button>
   </div>
 </template>
 
@@ -18,12 +18,15 @@ export default {
   },
   data(){
     return{
-      isClicked: true,
+      copiedText: ''
     }
   },
   methods:{
     changeText(event){
       event.target.innerText = "Copied!";
+      event.target.classList.add('copied');
+      this.copiedText = event.target.previousElementSibling.lastElementChild.innerText;
+      navigator.clipboard.writeText(this.copiedText);
     }
   },
 };

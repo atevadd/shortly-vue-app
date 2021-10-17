@@ -4,7 +4,7 @@
       <form action="">
         <div class="input-box">
           <input
-            type="text"
+            type="url"
             name=""
             id="url-field"
             placeholder="Shorten a link here..."
@@ -17,8 +17,8 @@
       </form>
     </div>
 
-    <div class="shortener-result-wrapper">
-      <ShortenerResult :link="text" :shortLink="text" cssClass="copied"/>
+    <div class="shortener-result-wrapper" v-if="links !== 0">
+      <ShortenerResult v-for="link in links" :key="link.id" :link="link.original" :shortLink="shrtLink" cssClass="copied"/>
     </div>
   </div>
 </template>
@@ -34,12 +34,30 @@ export default {
   data(){
     return{
       text: "",
+      originaLink: "",
+      shrtLink: "",
+      arrCounter: 0,
+      links:[]
     }
   },
   methods: {
     getInput(e){
       e.preventDefault();
-        console.log( `${String(this.text)} copied successfully`);
+      fetch(`https://api.shrtco.de/v2/shorten?url=${this.text}`)
+      .then(res => {
+        return res.json();
+      })
+      .then(data =>{
+        this.originaLink = data.result.original_link;
+        this,this.shrtLink = data.result.full_short_link;
+        this.links.push({
+          id: this.arrCounter += 1,
+          original: data.result.original_link,
+          short: data.result.full_short_link,
+        })
+        console.log(this.links);
+      })
+      .catch(err => console.log(err))
     },
   }
 };
