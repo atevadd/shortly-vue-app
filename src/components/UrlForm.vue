@@ -57,7 +57,9 @@ export default {
         })
         console.log(this.links);
       })
-      .catch(err => console.log(err))
+      .catch(err => console.log(err));
+
+      this.links = [];
     },
   }
 };
