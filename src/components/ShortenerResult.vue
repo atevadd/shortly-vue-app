@@ -2,7 +2,7 @@
   <div class="shortener-result">
     <div class="links">
       <p class="search">{{ link }}</p>
-      <p class="result">{{ shortLink }}</p>
+      <a :href="shortLink" target="_blank" class="result">{{ shortLink }}</a>
     </div>
     <button @click="changeText"  type="text">Copy</button>
   </div>
@@ -53,7 +53,8 @@ export default {
   color: #333;
   font-weight: 500;
 }
-.shortener-result-wrapper .shortener-result .links p.result{
+.shortener-result-wrapper .shortener-result .links a.result{
+  text-decoration: none;
   color: var(--Cyan);
   margin-right: 10px;
 }

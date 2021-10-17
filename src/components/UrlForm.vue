@@ -43,7 +43,15 @@ export default {
   methods: {
     getInput(e){
       e.preventDefault();
-      fetch(`https://api.shrtco.de/v2/shorten?url=${this.text}`)
+      if(this.text === ""){
+        e.target.previousElementSibling.lastElementChild.classList.add('invalid');
+        e.target.previousElementSibling.firstElementChild.classList.add('invalid');
+      }else{
+        e.target.previousElementSibling.lastElementChild.classList.remove('invalid');
+        e.target.previousElementSibling.firstElementChild.classList.remove('invalid');
+
+
+        fetch(`https://api.shrtco.de/v2/shorten?url=${this.text}`)
       .then(res => {
         return res.json();
       })
@@ -51,7 +59,7 @@ export default {
         this.originaLink = data.result.original_link;
         this,this.shrtLink = data.result.full_short_link;
         this.links.push({
-          id: this.arrCounter += 1,
+          id: this.arrCounter,
           original: data.result.original_link,
           short: data.result.full_short_link,
         })
@@ -60,6 +68,9 @@ export default {
       .catch(err => console.log(err));
 
       this.links = [];
+      this.text = "";
+      }
+      
     },
   }
 };
